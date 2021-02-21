@@ -19,5 +19,33 @@ Drawing bounding boxes and center detection of the tumor
 Here's the output of the code step by step;
 
 Original Image\
-![Original Image](Images/Original%20Image.png)
+![Original Image](Images/Original%20Image.png)\
+
+Sharpened\
+![Sharpened Image](Images/Sharpened%20Image.png)\
+
+Gray Scale\
+It's not changed because already gray\
+![Gray Scaled Image](Images/Gray%20Scale%20Image.png)\
+
+Salt-Peper Noise\
+![Gray Scaled Image](Images/Salt-Pepper%20Added%20Image.png)\
+
+Median Filter\
+![Median Filter Image](Images/Noise%20Removed%20Image.png)\
+
+Median Filter\
+![Median Filter Image](Images/Noise%20Removed%20Image.png)\
+
+Canny Edge Detection\
+![Canny Image](Images/Canny%20Applied%20Image.png)\
+
+Combined original image and canny\
+![Combined Image](Images/Combined%20Image.png)\
+
+Morphological processes\
+![Morphological Processes](Images/After%20Morphological%20Processes.png)\
+
+Tumor detected\
+![Tumor Image](Images/Tumor%20Detected%20Image.png)\
 
