@@ -25,7 +25,7 @@ Sharpened\
 ![Sharpened Image](Images/Sharpened%20Image.png)\
 
 Gray Scale\
-It's not changed because already gray\
+(It's not changed because already on gray scale)\
 ![Gray Scaled Image](Images/Gray%20Scale%20Image.png)\
 
 Salt-Peper Noise\
@@ -34,8 +34,6 @@ Salt-Peper Noise\
 Median Filter\
 ![Median Filter Image](Images/Noise%20Removed%20Image.png)\
 
-Median Filter\
-![Median Filter Image](Images/Noise%20Removed%20Image.png)\
 
 Canny Edge Detection\
 ![Canny Image](Images/Canny%20Applied%20Image.png)\
