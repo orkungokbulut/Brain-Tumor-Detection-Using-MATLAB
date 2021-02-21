@@ -25,7 +25,6 @@ Sharpened\
 ![Sharpened Image](Images/Sharpened%20Image.png)\
 
 Gray Scale\
-(It's not changed because already on gray scale)\
 ![Gray Scaled Image](Images/Gray%20Scale%20Image.png)\
 
 Salt-Peper Noise\
