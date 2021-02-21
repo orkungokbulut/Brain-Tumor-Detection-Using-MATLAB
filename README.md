@@ -16,4 +16,9 @@ Thresholding
 Morphological Processes
 Drawing bounding boxes and center detection of the tumor
 ```
+Here's the output of the code step by step;
 
+Original Image
+```
+![Original Image](Images/Original%20Image.png)
+```
