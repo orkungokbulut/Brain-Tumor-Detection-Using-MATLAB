@@ -1,0 +1,228 @@
+Project Copacetic(COPA)
+
+Project Copacetic, konteyner imajlarındaki güvenlik açıklarını gidermeyi amaçlayan açık kaynaklı bir CLI tooldur. Go dilinde yazılmış ve BuildKit tabanlıdır. Trivy gibi popüler zaafiyet tarama araçları tarafından üretilen
+raporlara dayanarak konteyner imajlarındaki güncel olmayan veya güvenlik açığına sahip paketleri tespit eder.
+Sonrasında tespit edilen zaafiyetlerden yola çıkarak uygun paket yöneticileri (örneğin, apt-get, apk) aracılığıyla bu paketleri günceller. Güncellenen paketler BuildKit kullanılarak imagelara doğrudan import edilir. 
+Bu süreç, docker imagelarının üzerine ek bir "yama katmanı" ekler ve imageları yeniden oluşturmaya gerek kalmadan güvenlik açıklarını kapatır. 
+
+COPA'nın Avantajları
+
+Hızlı ve Etkili: Konteyner imajlarını tam olarak yeniden oluşturmak yerine, yalnızca gerekli güncellemeleri uygulayarak güvenlik açıklarını hızlı bir şekilde kapatır.​ COPA bu CVE(Common Vulnerabilities and Exposures)
+yani güvenlik açıkları internet ile paylaşıldıktan sonra hackerların 15 dakika içinde bu zaafiyetleri tarayabildiğini belirtmektedir. Bundan dolayı containerları yeniden oluşturmak yerine ek bir yama katmanı kullanma yoluna
+gittiklerini belirtmişlerdir. 
+
+Depolama ve İletim Tasarrufu: Tam yeniden oluşturma yerine ek yama katmanları oluşturduğundan, depolama ve iletim maliyetlerini azaltır.​
+
+Esneklik: Mevcut güvenlik tarama ve güncelleme ekosistemleriyle uyumlu çalışır, böylece ek yapılandırmalar gerektirmez. COPA günümüzde popüler container tarama araçları 
+tarafından üretilen raporlarda yer alan güvenlik açığı giderme bilgisine sadık kalarak işlemlerini gerçekleştirir. Dolayısıyla spesifik bir image hakkında özel bir bilgiye ihtiyaç duymaz esnek bir yapıda çalışır. Bu duruma
+en güzel örnek işletim sistemi düzeyindeki paketler üzerinden verilebilir. 
+
+COPA'nın Dezavantajları:
+
+Sınırlı Paket Desteği: Şu an için yalnızca işletim sistemi düzeyindeki paketleri yamalayabilir; uygulama düzeyindeki paketler veya özel yapılandırmalar için destek sınırlıdır. ​
+
+Paket Yöneticisi Bağımlılığı: Farklı imagelar, farklı paket yöneticileri kullanabilir; Copa'nın her paket yöneticisi için uygun adaptörlere ihtiyacı vardır.
+
+Strimzi
+
+Strimzi, Kubernetes üzerinde Apache Kafka clusterlarının yönetimini kolaylaştıran açık kaynaklı bir projedir. Kubernetes operatörleri kullanarak Kafka broker'ları, Apache ZooKeeper, Kafka Connect ve Kafka MirrorMaker
+gibi bileşenlerin dağıtımını ve yönetimini otomatize eder. Bunun dışında Strimzinin Kafka bridge adında Kafka’ya erişim için HTTP REST API sunan bir bileşeni de bulunaktadır. 
+
+Strimzinin çalışırken Kubernetes ortamında Kafka clusterlarının oluşturulması, yapılandırılması ve yönetilmesi için özel CRD'ler ve operatörler kullanır. Örneğin, Kafka CRD'si ile Kafka clusterları oluşturulabilirken, 
+KafkaTopic ve KafkaUser CRD'leri ile topicler ve kullanıcılar yönetilebilir. Operatörler, bu kaynakları izler ve istenilen durumlarına ulaşmaları için gerekli işlemleri otomatik olarak gerçekleştirir. 
+
+Strimzi
+
+Strimzi Operatörleri;
+
+- Cluster Operator
+Apache Kafka clusterlarını, Kafka Connect, Kafka MirrorMaker, Kafka Bridge, Kafka Exporter, Cruise Control ve Entity Operator bileşenlerini dağıtır ve yönetir. Aynı zamanda cluster operator Strimzi üzerinden deploy 
+edildikten sonra replicaları da clustera dağılmaktadır. Bu şekilde election işlemi gerçekleştirilir ve cluster operator'a erişim kesintisi minimize edilmiş olur. 
+
+- Entity Operator
+Kafka topic operatörünün ve user operatörlerinin ikisini birden içeren operatördür. Topicler ve Kafka userlar bu operatör tarafından yönetilir. Kafka userları ile birlikte ACL(Access Control List) bileşenleri de user 
+operatörü tarafından yönetilmektedir. 
+
+Kafka Bridge üzerinden ise Kafka istemcisi olmayan sistemler (örneğin mobil uygulamalar, IoT cihazları, basit mikroservisler) için Kafka’ya REST üzerinden erişim sağlanmaktadır. Bu şekilde producce ve consume işlemlerinin
+HTTP istekleri üzerinden yapılması mümkün kılınmış olur.
+Kafka bridge'in odak noktası Kafka’ya REST ile erişim sağlamaktır. Bu şekilde mesaj alışverişi yapmak isteyen sistemlerin Kafka protokolünü bilmelerine gerek kalmaz.
+
+Strimzi'nin Avantajları:
+
+Otomasyon: Kafka clusterlarının kurulumu ve yönetimi otomatize edilerek operasyonel yük azaltılır.​
+
+Esneklik: Farklı Kafka bileşenlerinin (MirrorMaker, Connect vb.) entegrasyonu kolaylaşır.​
+
+Ölçeklenebilirlik: Kubernetes'in sunduğu ölçeklenebilirlik özellikleri sayesinde, Kafka kümeleri ihtiyaçlara göre yatay olarak ölçeklendirilebilir.​
+
+Dezavantajları:
+
+Kaynak Tüketimi: Kubernetes ortamı, özellikle küçük ölçekli uygulamalar için fazla kaynak tüketebilir.​ Büyük ölçekli uygulamalarda tercih edilmelidir. 
+
+OpenFGA
+
+​OpenFGA, geliştiriciler için yüksek performanslı ve esnek bir yetkilendirme motorudur. Google'ın Zanzibar sisteminden ilham alınarak tasarlanmıştır ve uygulamalarda fine-grained erişim kontrolü sağlamayı 
+amaçlar. Fine-grained, sistemlerde kullanıcıların neye, ne kadar, ne şekilde erişebileceğini çok detaylı ve hassas şekilde belirleyebilme yeteneği olarak tanımlanmaktadır.
+OpenFGA, uygulamalardaki nesneler arasındaki ilişkileri modelleyerek, kullanıcıların hangi nesnelere hangi eylemleri gerçekleştirme iznine sahip olduğunu belirler. Böylelikle karmaşık erişim kontrolü 
+senaryolarını esnek ve verimli bir şekilde yönetmeyi amaçlamaktadır. 
+
+Hızlı geliştirme için bellek tabanlı veri depolama sağlar ve takılabilir veritabanı modüllerini destekler. Şu anda PostgreSQL 14, MySQL 8 ve SQLite(Beta) destekleri mevcuttur.
+
+HTTP API ve gRPC API sunar. Node.js/JavaScript, Java, GoLang, Python ve .NET için SDK’ları bulunmaktadır.
+
+Auth0 ekibi tarafından açık kaynak olarak geliştirilmesi devam etmektedir.
+GoLang dili ile geliştirilmiştir.
+API Metric/Trace bağlantıları sunar -> OpenTelemetry, Jeager, zipkin vb.
+Kendine ait Cache mekanizması vardır.
+
+OpenFGA Avantajları:
+
+Yüksek Performans: Erişim kontrolü sorgularına milisaniyeler içinde yanıt vererek yüksek performans sunar.​
+
+Esneklik: RBAC, ABAC ve ReBAC gibi farklı yetkilendirme modellerini destekler.​
+
+Kullanıcı Dostu: Geliştiriciler için kapsamlı dokümantasyon ve örneklerle birlikte gelmektedir.​
+
+Dezavantajları:
+
+Ek Kaynak Tüketimi: Ayrı bir yetkilendirme servisi eklemek, sistem kaynaklarında ek yük oluşturabilir.
+
+Konveyor
+
+​Konveyor, Kubernetes ortamları için uygulama taşıma, modernizasyon ve yönetim süreçlerini kolaylaştıran bir açık kaynak projesidir. Konveyor, özellikle uygulamaların bulut ortamlarına taşınması ve Kubernetes altyapısına 
+dönüştürülmesi için çeşitli araçlar ve çözümler sunar.Konveyor, birçok araç ve bileşenden oluşan bir ekosistem sunar. Bu bileşenler, genellikle uygulama taşınabilirliğini, modernizasyonunu ve optimizasyonunu hedefler. 
+
+Konveyor'un Anahtar Bileşenleri; 
+1. Konveyor Hub
+Konveyor Hub, Konveyor ekosisteminde yer alan araçların ve bileşenlerin merkezi deposudur. Hub, projelere yönelik kaynaklar, araçlar ve örnekler sunarak, geliştiricilere uygulamaların taşınmasında ve modernizasyonunda 
+yardımcı olur. Konveyor araçlarının ve çözümlerinin merkezi bir kaynağıdır. DockerHub gibi düşünülebilir. Hub üzerinden Konveyor araçları ve bileşenlerine kolay erişim sağlanır.
+
+
+2. Konveyor CLI 
+Konveyor CLI, uygulamaları taşıma, dönüştürme ve modernize etme işlemlerini komut satırından yönetmeye olanak tanır. Geliştiriciler, bu araç ile daha hızlı ve etkili bir şekilde işlemleri otomatize edebilirler.
+Uygulama taşınması ve dönüşümü için CLI arayüzü kullanılır. Dezavantaj gibi görünse de CLI ile işlem yaparak bazı süreçler otomatize edilebilir.
+
+3. Konveyor AI
+Konveyor AI, uygulamaların bulut ortamlarına taşınmasında ve modernizasyonunda, yapay zeka destekli analizler kullanır. AI, mevcut uygulamanın mimarisini analiz ederek, otomatik dönüşüm önerileri sunar ve taşınabilirlik 
+açısından en iyi stratejiyi önerir. Dolayısıyla verimliliğin artması ve taşınabilirlik stratejilerinin optimize edilmesi hedeflenir.
+
+Konveyor'un Avantajları;
+
+Taşıma İşlemini Kolaylaştırır: Uygulamaların cloud'a taşınmasını ve Kubernetes üzerinde yönetilmesini kolaylaştırır.
+
+Yüksek Verimlilik: Modernizasyon ve taşıma işlemleri, otomatik araçlar ve yapay zeka desteği ile hızlandırılır.
+
+Esneklik: Monolitik uygulamaları mikro servis mimarisine dönüştürmeyi kolaylaştırır.
+
+Konveyor'un Dezavantajları;
+
+Karmaşık Dönüşüm Süreçleri: Büyük ve karmaşık uygulamaların dönüşümü Konveyor araçları ile zaman alıcı olabilir.
+
+Kubefleet
+
+KubeFleet, birden fazla Kubernetes kümesinde uygulamaların dağıtımını, yönetimini ve ölçeklenmesini kolaylaştırmak için tasarlanmış cloud tabanlı bir çoklu cluster/cloud çözümüdür. Gelişmiş planlama, kaynak optimizasyonu
+ve policy tabanlı yönetim kullananmaktadır. 
+
+KubeFleet'in Avantajları:
+
+Çoklu cluster dağıtımı: KubeFleet, birden fazla clustera uygulama dağıtmak için tek bir control plane sunar; böylelikle, çalıştırılacak en uygun clusterı bulmayı ve her kümedeki replika sayısını kontrol etmeyi sağlar.
+
+Scheduling: KubeFleet, Cluster affinity, topology spread gibi birçok Kubernetes zamanlama işlemini destekler. Ayrıca, N kümeyi seç (Dağıtım benzeri) veya tüm kümeleri seç (DaemonSet benzeri) gibi farklı çoklu cluster 
+özellikli policy seçimleri de sunar.
+
+Metrik tabanlı zamanlama: KubeFleet ayrıca, uygulamaların dahili ölçümler (GPU, CPU, bellek ve node hesabı) ve harici/özel ölçümler (maliyet, IP adresi kullanılabilirliği ve ağ hızı) dahil olmak üzere çeşitli ölçümlere
+göre en uygun clustera tahsis edilmesini sağlayan karmaşık ölçüm tabanlı yerleştirme stratejilerini de destekler. 
+
+Continious deployment stratejileri: KubeFleet, Kubernetes deployment sürecine çok benzeyen yerleşik bir rolling update stratejisine sahiptir.
+
+KubeFleet'i Karmada ile karşılaştıracak olursak; 
+Kubefleet, GitOps yaklaşımını benimseyerek daha verimli bir merkezi yönetim sağlar ve Kubernetes kümelerinin yapılandırmalarını Git depolarında saklar.
+Karmada ise çoklu kümeleri birleştirerek tek bir mantıksal küme gibi yönetir ve bu küme kaynaklarını daha merkezi bir düzeyde yönetir. 
+Her iki teknoloji de temelde multi-cluster Kubernetes yönetimi için kullanılmayı amaçlamaktadır. 
+
+Kueue(Kubernetes Queue)
+Kueue (Kubernetes Queue), Kubernetes ortamlarında işlerin yönetilmesi için kullanılan bir açık kaynaklı proje ve sistemdir. Kueue, Kubernetes üzerinde iş kuyruğu yönetimi sağlar ve işlerin (örneğin, pod'ların) sırasını
+ve dağıtımını optimize etmeyi amaçlar. Kubernetes'te yük dengelemesi ve kaynak yönetimi için etkili bir çözümdür.
+
+Kueue çalışırken Kubernetes'in kaynaklarını kullanarak işlerin sırasını belirler. İşlerin sırasını belirlemek için CRDler kullanılır. Bu CRD'ler, iş yüklerinin öncelik sırasını ve ne zaman çalışacaklarını belirler. 
+Kueue, bu kaynakları sürekli olarak izler ve gerektiğinde iş yüklerini uygun sırayla zamanlar.
+
+Queue CRD: Her bir iş yükü için özel bir "queue" (kuyruk) oluşturulabilir. Kuyruklar, işlerin önceliğini ve zamanlamasını kontrol etmek için kullanılır.
+
+Pod ve Queue İlişkisi: Kubernetes pod'ları belirli kuyruklara atanır. Kuyruklar, belirli bir iş yükünü zamanlamak ve çalıştırmak için gerekli olan kaynakları ve zamanlamayı içerir.
+
+Kaynak Yöneticisi: Kueue, kaynak taleplerini takip eder ve bu talepleri mevcut kaynak kapasitesine göre sıraya koyar.
+
+Scheduler: Kueue, Kubernetes scheduler'ı ile birlikte çalışarak iş yüklerini zamanlar ve sıralar.
+
+Mimari Bileşenler:
+Kueue CRD (Custom Resource Definitions):
+Kubernetes üzerinde kuyruk yönetimi sağlayan özel kaynaklardır. Her bir iş yükü belirli bir kuyruk ile ilişkilendirilir.
+
+Kueue Controller:
+Kueue kontrolörü, kuyruklardaki işlerin sırasını yönetir ve bu işlerin Kubernetes ortamında doğru sırada çalışmasını sağlar.
+
+Queue Scheduler:
+Queue scheduler, işleri kuyruğa alır ve belirli kurallara göre bu işleri zamanlar. Çalıştırılacak işleri belirlerken kaynak tüketimi ve işin önceliği gibi faktörleri göz önünde bulundurur.
+
+Pod ve Queue Dağıtımı:
+Kubernetes pod'ları, belirli kuyruklara atanarak sıralanır ve öncelik sırasına göre zamanlanır.
+
+Avantajları:
+Yüksek Verimlilik: İşlerin ve kaynakların etkili bir şekilde sıralanması, kaynakların daha verimli kullanılmasına olanak tanır.
+
+Kaynak Yönetimi: Yüksek kaynak tüketimi olan uygulamalar için daha etkili kaynak yönetimi sağlar.
+
+Önceliklendirme: İş yüklerinin önceliğine göre sıralama yaparak, kritik iş yüklerinin öncelikli olarak çalışmasını sağlar.
+
+Esneklik: Kubernetes üzerinde büyük ölçekli uygulama dağıtımları için esnek bir çözüm sunar.
+
+Dezavantajları:
+Yönetim Karmaşıklığı: Kueue, Kubernetes ortamında ek bir yapılandırma ve yönetim gerektirir. Bu da zaman alıcı olabilir.
+
+Ekstra Bağımlılıklar: Kueue, ek bir katman ve kontrolör eklediği için karmaşıklığı arttırabilir. 
+
+Kubestellar
+
+KubeStellar, multi-cluster kubernetes yönetimini basitleştirmeyi amaçlayan bir açık kaynaklı projedir. Kubernetes clusterları, farklı coğrafi bölgelerde veya bulut sağlayıcılarında (multi-cloud) dağıtıldığında, bu kümeleri
+etkili bir şekilde yönetmek ve senkronize etmek karmaşık olabilir. KubeStellar, bu karmaşıklığı azaltmayı hedefler ve farklı kümelerdeki iş yüklerini yönlendirirken, bunları tutarlı bir şekilde yönetmeyi sağlar.
+KubeStellar, multi-cluster yönetimini sağlamak için aşağıdaki temel bileşenleri kullanır:
+
+Control Plane: KubeStellar, merkezi bir control plane kullanarak multi-cluster yönetim sağlar. Bu kontrol düzlemi, tüm clusterlardaki iş yüklerini izler ve gerektiğinde yönlendirir.
+
+Cluster Eşitleme ve Senkronizasyon: Farklı clusterlardaki kaynaklar ve iş yükleri eşitlenir. Böylelikle iş yüklerinin dağıtımını ve kümeler arasında tutarlılığın sağlanması hedeflenir.
+
+Scheduler ve Orkestrasyon: KubeStellar, Kubernetes scheduler'larını kullanarak iş yüklerini doğru kümelere yönlendirir. Böylelikle, kaynakları verimli bir şekilde kullanmaya yardımcı olur ve her kümenin potansiyelinden
+en iyi şekilde faydalanılmasını hedefler. 
+
+GitOps ve CI/CD Entegrasyonu: Yapılandırmalar ve dağıtımlar, GitOps yaklaşımı ile yönetilebilir. KubeStellar, CI/CD araçlarıyla entegre olarak, yapılandırma yönetimini otomatikleştirir.
+
+API Gateway: Çoklu kümeler arasında iletişim için bir API Gateway kullanılır. Bu, farklı kümelerdeki iş yükleri ve servisler arasındaki veri akışını yönetir.
+
+Avantajları:
+Çoklu Küme Yönetimi: KubeStellar, birden fazla Kubernetes kümesini merkezi bir düzeyde yönetmeye olanak tanır. Bu, çoklu küme yönetimini basitleştirir ve işleri daha verimli hale getirir.
+
+Yüksek Erişilebilirlik ve Felaket Kurtarma: Çoklu kümeler arasında yüksek erişilebilirlik sağlanır ve felaket durumlarında hizmet sürekliliği korunur.
+
+Esneklik ve Taşınabilirlik: KubeStellar, farklı bulut sağlayıcılarında ve edge cihazlarında çalışan Kubernetes kümelerini etkili bir şekilde yönetir. Bu, multi-cloud ve hybrid cloud çözümleri için idealdir.
+
+Kaynak Verimliliği: KubeStellar, kümeler arasında kaynakları verimli bir şekilde dağıtarak gereksiz kaynak kullanımını azaltır ve maliyetleri düşürür.
+
+Otomasyon ve CI/CD Entegrasyonu: GitOps ve CI/CD araçları ile yapılandırmaların otomatikleştirilmesi sağlanır, bu da dağıtım süreçlerini hızlandırır ve hata payını azaltır.
+
+Dezavantajları:
+Yönetim Karmaşıklığı: Birden fazla küme ve ortamın yönetilmesi, karmaşık bir yapı oluşturabilir. Bu, başlangıçta daha fazla zaman ve uzmanlık gerektirir.
+
+Ağ Yönetimi ve Güvenlik: Kümeler arasında ağ yönetimi karmaşık olabilir. Güvenlik, özellikle multi-cloud ve edge computing senaryolarında dikkatlice yönetilmesi gereken bir konudur.
+
+Bağımlılıklar ve Başlangıç Maliyeti: Çoklu kümelerin yönetilmesi ve koordinasyonu için ek altyapı ve kaynak gerekebilir.
+
+Kubestellar, Karmada ve Kubefleet karşılaştırma tablosu buraya konacak. 
+
+KubeStellar, multi-cloud ve hybrid cloud ortamlarında kümeleri yönetmek için uygun bir araçtır. Kaynak yönetimi ve yüksek erişilebilirlik gibi özelliklerle büyük ölçekli kümeleri verimli bir şekilde yönetmek 
+için tercih edilebilir.
+
+Karmada, özellikle federasyon temelli bir yaklaşım kullanarak kümeler arasındaki uygulama dağıtımlarını yöneten bir araçtır. Karmada, çoklu kümeler üzerinde kapsamlı yönetim sağlayan bir çözüm sunar, ancak bazı
+kullanıcılar için yönetim karmaşıklığı oluşturabilir.
+
+KubeFleet, Kubernetes kümeleri arasında kaynak yönetimi ve dağıtım üzerine odaklanır ve yük dengeleme ile otomatik ölçekleme sağlar. Çoklu kümeleri yönetmek için merkezi bir kontrol düzlemi sunar.
