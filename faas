@@ -1,0 +1,80 @@
+FAAS Nedir
+Faas, geliştiricilerin belirli görevleri gerçekleştirmek için küçük ve bağımsız fonksiyonların yazıldığı, sonrasında bu fonksiyonların deploy edildiği bir sistem dizayn modelidir. 
+Bu fonksiyonlar gerçek hayatta event-driven olarak kullanılır. Yani örnek olarak HTTP requestleri, veritabanı eventleri veya zaman bağımlı eventlere ve  tetikleyicilere göre çalışmaktadırlar. 
+
+FAAS Geliştirilme Amacı
+Faasın güzel yanı geliştiriciler bu fonksiyonları yazarken infrastructure ve server ile uğraşmak zorunda kalmazlar. Yalnızca bireysel fonksiyonlarıler için kod yazmaya odaklanırlar. 
+Faas platformu bunu sağlamak için altta yatan kaynakları ve scaling'i otomatik olarak yönetebilmektedir. 
+
+FAAS serverless architechture'un temel bir bileşenidir. Sunucusuz mimari, serverless computing ve direkt FAAS olarak da bilinir. Cloud providerların sunucu tedariğini ve tahsisini dinamik olarak yönettiği, 
+developerların ise kodların yazılması ve uygulanmasından sorumlu olduğu yaklaşımdır. 
+
+FAAS'ın Bileşenleri 
+1 - Fonksiyonlar; Faas'ın temel yapı taşlarıdır. Belirli görevleri gerçekleştirmek veya eventlere yanıt vermek üzere geliştirilmiş bağımsız kod bloklarını temsil etmekdir. 
+2 - Event Triggerind; Faas fonksiyonları genellikle gerçek hayat kullanımlarında HTTP istekleri, DB değişiklikleri, dosya yükleme ve zamanlayıcılar gibi eventler tarafından tetiklenmektedir.
+Event triggering mekanizması event-driven mimariye olanak tanımaktadır. 
+3 - FaaS, sunucuları veya altyapıyı yönetme ihtiyacını ortadan kaldırır. Geliştiricilerin sunucuları sağlaması, ölçeklendirmesi veya bakımını yapması gerekmez; FaaS platformu bu görevleri otomatik olarak hallederek
+sunucusuz bir bilgi işlem modeline olanak tanır.
+4 - Pay-per-use; fonksiyon çalıştığı süre boyunca faturalandırma olur. 
+5 - Scalability; FaaS platformları, iş yükü taleplerine yanıt olarak fonksiyonlarıleri otomatik olarak ölçeklendirir. İşlevler, değişen trafik seviyelerini işleyerek yüksek kullanılabilirlik ve verimli kaynak kullanımı sağlar.
+6 - Stateless; FaaS fonksiyonları, tasarımları gereği durumsuzdur; yani çağrılar arasında bilgi depolamazlar. Gerekli tüm durumlar, veritabanları veya harici depolama hizmetleri gibi harici olarak yönetilmelidir.
+
+Sistem tasarımında FAAS'ın avantajları;
+1 - Ölçeklenebilirlik; FaaS, iş yükü değişimlerine yanıt olarak fonksiyonlarıleri otomatik olarak scale edebilir. Bu esneklik, uygulamaların manuel müdahale olmadan değişen trafik seviyelerini yönetebilmesini sağlayarak gelişmiş 
+performans ve güvenilirlik sağlar.
+2 - Maliyet Verimliliği; FaaS, kullanıcıların yalnızca fonksiyonlar tarafından tüketilen kaynaklar için ücretlendirildiği, kullanım başına ödeme faturalandırma modelini izler. Bu uygun maliyetli fiyatlandırma yapısı, 
+maliyetli altyapı sağlama ve sürdürme ihtiyacını ortadan kaldırarak, öngörülemeyen veya düzensiz iş yüklerine sahip uygulamalar için idealdir.
+3 - Basitlik; FaaS, altyapı yönetiminin karmaşıklıklarını ortadan kaldırarak geliştiricilerin yalnızca bireysel fonksiyonlarıler için kod yazmaya odaklanmalarını sağlar. Bu basitlik, geliştirme sürecini hızlandırır, pazara sunma 
+süresini azaltır ve hızlı yineleme ve deneme olanağı sağlar.
+4 - Esneklik: FaaS, geliştiricilerin çeşitli programlama dillerini ve çerçevelerini destekleyerek kodu hızlı ve kolay bir şekilde dağıtmalarını sağlar. Bu esneklik, ekiplerin belirli bir teknoloji yığınına bağlı kalmadan 
+iş için en iyi araçları seçmelerine ve değişen gereksinimlere uyum sağlamalarına olanak tanır.
+5 -  Event Driven Mimari: FaaS, fonksiyonların  HTTP istekleri, veritabanı değişiklikleri veya diğer hizmetlerden gelen mesajlar gibi eventler tarafından tetiklendiği event driven mimariyle doğası gereği uyumludur. 
+Bu event driven yaklaşım, bileşenler arasında gevşek bağlantıyı kolaylaştırır, ölçeklenebilirliği ve dayanıklılığı artırır ve diğer sistemler ve hizmetlerle sorunsuz entegrasyonu mümkün kılar.
+6 - Yüksek Kullanılabilirlik; FaaS platformları genellikle yerleşik yedeklilik ve hata toleransı sunarak, donanım arızaları veya diğer kesintiler durumunda bile fonksiyonlarılerin yüksek kullanılabilirliğini garanti eder. 
+Bu güvenilirlik, hizmet çalışma süresinin korunmasına ve tutarlı bir kullanıcı deneyimi sunulmasına yardımcı olur.
+
+FAAS Mimarisi; 
+1 - Fonksiyon; FAAS mimarisinin temel bileşeni fonksiyonun kendisidir. Fonksiyon belirli bir görevi gerçekleştiren veya bir evente yanıt veren küçük kod parçalarıdır. 
+2 - FAAS Provider; Faas platformunu sunan bulut hizmet sağlayıcısıdır. FaaS sağlayıcılarına örnek olarak AWS Lambda, Azure Functions, Google Cloud Functions ve IBM Cloud Functions verilebilir. Sağlayıcı, temel altyapıyı 
+yönetmekten, işlevleri ölçeklendirmekten ve operasyonel görevleri yürütmekten sorumludur.
+3 - Event Sources; Fonksiyonların tetiklenmelerini sağlayan kaynaklardır. FaaS platformları, olay odaklı mimariyi mümkün kılan çeşitli olay kaynaklarını destekler.
+4 - Function Execution Environment; Her fonksiyon, kodun yürütülmesi için gerekli çalışma ortamını ve bağımlılıkları içeren kendi izole yürütme ortamında çalışır. Yürütme ortamı, bir işlev çağrıldığında FaaS sağlayıcısı 
+tarafından dinamik olarak sağlanır ve kaynakları korumak için yürütme sonrasında silinir.
+5 - Scaling Mechanism; FaaS platformları, iş yükü taleplerine göre fonksiyon örneği sayısını dinamik olarak ayarlamak için ölçekleme mekanizmaları kullanır. Ölçekleme, trafikteki değişiklikleri karşılamak ve optimum 
+performansı sağlamak için yatay (daha fazla örnek ekleyerek) veya dikey (her örneğe ayrılan kaynakları ayarlayarak) olarak yapılabilir.
+6 - Invocation Mechanism; Fonksiyonlar, olayın niteliğine bağlı olarak senkron veya asenkron şekilde çağrılır. Senkron çağrı, bir HTTP isteğine yanıt olarak olduğu gibi hemen bir yanıt gerektiğinde gerçekleşir. 
+Asenkron çağrı ise , bir mesaj kuyruğundan olayların işlenmesi gibi hemen bir yanıt gerekmediğinde gerçekleşir.
+7 - Logging and Monitoring; FaaS platformları, işlevlerin performansını, yürütülmesini ve hatalarını izlemek için izleme ve günlük kaydı özellikleri sunar. Geliştiriciler, yürütme süresi, çağrı sayısı ve hata oranı gibi 
+ölçümleri izleyebilir ve sorunları gidermek ve performansı optimize etmek için günlükleri görüntüleyebilir.
+
+FaaS sistemini sistem tasarımına dahil ederken, verimli ve etkili bir uygulama sağlamak için dikkate alınması gereken birkaç önemli husus vardır:
+1 - Fonksiyon Ayrıntı Düzeyi: Fonksiyonlar küçük ve belirli görevlere odaklanacak şekilde tasarlanmalıdır. Ayrıntılı fonksiyonlar, yeniden kullanılabilirliği, ölçeklenebilirliği ve daha kolay bakımı destekler. 
+FaaS'ın faydalarını üst düzeye çıkarmak için tek monolitik fonksiyonlar oluşturmaktan kaçınılmalıdır.
+2 - State Yönetimi: FaaS fonksiyonları durumsuzdur, yani çağrılar arasında veri tutmazlar. Sistemleri, durumu veritabanları veya nesne depolaması gibi harici olarak depolayacak ve yönetecek şekilde tasarlanmalıdır. 
+State senkronizasyonu ve tutarlılığı için uygun mekanizmaları kullanılmalıdır. 
+3 - Cold Start Perfrmance: Bir fonksiyon ilk kez veya belirli bir süre kullanılmadığında oluşan gecikme olan soğuk başlatma gecikmesi en aza indirilmelidir. Bağımlılıkları azaltarak, kod boyutunu optimize ederek ve 
+yanıt vermeyi iyileştirmek için ön ısıtma tekniklerini uygulanarak optimizasyon işlemleri yapılmalıdır.
+4 - Concurrency Handling: FaaS provider tarafından uygulanan eşzamanlılık sınırlarını anlaşılmalı ve eşzamanlı yürütmeleri sorunsuz bir şekilde yönetecek sistemler tasarlanmalıdır. İş yükü artışlarını yönetmek ve performans
+düşüşünü önlemek için kısıtlama mekanizmaları ve kuyruk stratejileri uygulanmalıdır.
+5 - Bağımlılık Yönetimi: İşlev ayak izini azaltmak ve performansı artırmak için bağımlılıkları en aza indirin ve verimli bir şekilde yönetin. Hafif çerçeveler ve bağımlılık enjeksiyon tekniklerini kullanın ve işlev 
+yürütmeyi optimize etmek için bağımlılık önbelleğini değerlendirin.
+6 - Monitoring ve Logging: İşlev performansını izlemek, sorunları teşhis etmek ve sistem güvenilirliğini sağlamak için güçlü izleme ve günlük kaydı çözümleri uygulayın. FaaS platformu tarafından sağlanan yerleşik izleme 
+özelliklerini kullanın ve kapsamlı görünürlük için harici izleme hizmetleriyle entegre edin.
+7 - Güvenlik Önlemleri: Enjeksiyon saldırıları, veri ihlalleri ve yetkisiz erişim gibi yaygın tehditlere karşı koruma sağlamak için FaaS işlevlerine en iyi güvenlik uygulamalarını uygulayın. Hassas verileri ve kaynakları 
+korumak için güçlü kimlik doğrulama, yetkilendirme ve şifreleme mekanizmaları uygulayın.
+8 - Maliyet Optimizasyonu: Fonksiyonları doğru boyutlandırarak, ayrılmış kapasiteler veya spot örnekler gibi maliyet tasarrufu sağlayan özelliklerden yararlanarak ve potansiyel tasarruf fırsatlarını belirlemek için kaynak
+kullanımını izleyerek maliyetleri optimize edin. Maliyet açısından etkili uygulamaların hayata geçirilmesi, verimli kaynak kullanımı ve maliyet yönetimi sağlar.
+
+Kullanım Örnekleri ve Uygulamalar; 
+- Gerçek Zamanlı Veri İşleme: FaaS, IoT cihazlarından, sensörlerden veya olay odaklı uygulamalardan gelen gerçek zamanlı veri akışlarını işlemek için çok uygundur. Fonkiyonlar, gelen verileri analiz edebilir, dönüştürebilir 
+ve bunlara göre işlem yapabilir, böylece gerçek zamanlı karar alma ve event driven iş akışlarını mümkün kılar.
+- Asenkron İşleme: FaaS, genellikle görüntü veya video kod dönüştürme, dosya işleme veya veri doğrulama gibi asenkron işleme görevleri için kullanılır. Fonksiyonlar, dosya yüklemeleri veya veritabanı değişiklikleri gibi 
+eventler tarafından tetiklenebilir ve bu da asenkron görevlerin verimli ve ölçeklenebilir bir şekilde işlenmesini sağlar.
+- Mikro Servis Mimarisi: FaaS, hafif ve bağımsız mikro servisler uygulamak için mikro servis mimarilerine entegre edilebilir. Her mikro servis, sistem tasarımında modülerlik, ölçeklenebilirlik ve esnekliği destekleyen bir 
+işlev olarak kapsüllenebilir. Olay Odaklı İş Akışları: FaaS, olay odaklı iş akışlarının oluşturulmasını ve karmaşık iş süreçlerinin düzenlenmesini sağlar. Fonksiyonlar, çeşitli kaynaklardan gelen olaylara yanıt verebilir, 
+sonraki eylemleri tetikleyebilir ve birden fazla servis ve sistem genelinde veri ve mantık akışını koordine edebilir.
+- API Backend Servisleri: FaaS, ölçeklenebilir ve verimli istek yönetimi sağlayarak API servisler için backend görevi görebilir. Fonksiyonlar, gelen API isteklerini işleyebilir, girdileri doğrulayabilir, güvenlik 
+politikalarını uygulayabilir ve backend sistemleriyle etkileşim kurarak ölçeklenebilir ve dayanıklı API servislerin geliştirilmesini destekleyebilir.
+- Sohbet Robotları ve Sesli Asistanlar: FaaS, sohbet robotları ve sesli asistanlar gibi konuşma arayüzlerini destekleyebilir. Fonksiyonlar, kullanıcı girdilerini işleyebilir, konuşma mantığını yürütebilir ve 
+kişiselleştirilmiş ve bağlam farkında yanıtlar sağlamak için harici hizmetlerle entegre olabilir.
+
